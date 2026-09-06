@@ -161,7 +161,7 @@ HealthSyncAI/
    ```bash
    python manage.py runserver 0.0.0.0:8000
    ```
-   *Access OpenAPI documentation at: `http://127.0.0.1:8000/api/docs/`*
+   Use `0.0.0.0` so phones and other devices on the same network can reach the backend. Allow Python through the Windows Firewall when prompted. Access OpenAPI documentation at `http://127.0.0.1:8000/api/docs/`.
 
 ---
 
@@ -181,7 +181,13 @@ HealthSyncAI/
    ```bash
    flutter run
    ```
-   *(Supports Windows Desktop, Web, Android Emulator, and iOS Simulator).*
+   *(Supports Windows Desktop, Web, Android Emulator, and iOS Simulator.)*
+
+   For a physical phone on the same Wi-Fi network, replace `10.37.244.11` with the computer's IPv4 address:
+   ```bash
+   flutter run --dart-define=API_BASE_URL=http://10.37.244.11:8000
+   ```
+   The API URL can also be changed later from **Settings > Backend Server Configuration**. Android Emulator uses `http://10.0.2.2:8000` by default; desktop and web use `http://127.0.0.1:8000`.
 
 ---
 
