@@ -1,0 +1,68 @@
+[
+  {
+    "title": "5-Minute Box Breathing Reset",
+    "session_type": "BREATHING",
+    "duration": 5,
+    "description": "A grounding pranayama technique: inhale for 4 counts, hold for 4, exhale for 4, hold for 4.",
+    "guide_steps": [
+      "Find a comfortable upright posture with spine elongated.",
+      "Inhale slowly through your nose for 4 counts.",
+      "Gently hold your breath with relaxed shoulders for 4 counts.",
+      "Exhale smoothly through your mouth for 4 counts.",
+      "Hold empty and peaceful for 4 counts. Repeat for 5 cycles."
+    ],
+    "target_time_of_day": "Morning or High Stress Moments"
+  },
+  {
+    "title": "10-Minute Mindful Awareness & Body Scan",
+    "session_type": "MINDFULNESS",
+    "duration": 10,
+    "description": "Gradually bring mindful attention to sensations throughout your body from toes to crown.",
+    "guide_steps": [
+      "Close your eyes and take three deep cleansing breaths.",
+      "Bring attention to the soles of your feet and calf muscles; notice warmth or tension and release it.",
+      "Move attention up through the abdomen, chest, shoulders, and jaw.",
+      "Acknowledge wandering thoughts like clouds drifting across the sky, gently returning to the breath."
+    ],
+    "target_time_of_day": "Morning or Afternoon"
+  },
+  {
+    "title": "Evening Stress Release & Gratitude Meditation",
+    "session_type": "RELAXATION",
+    "duration": 12,
+    "description": "Decompress after work or study hours, letting go of daytime cognitive overload.",
+    "guide_steps": [
+      "Sit back comfortably and soften your gaze.",
+      "Exhale long and slow, visualizing releasing the demands of the day.",
+      "Recall three simple moments from today that brought calm, appreciation, or satisfaction.",
+      "Rest in a sensation of quiet ease and contentment."
+    ],
+    "target_time_of_day": "Evening"
+  },
+  {
+    "title": "Deep Sleep Transition & Progressive Muscle Relaxation",
+    "session_type": "SLEEP_RELAXATION",
+    "duration": 15,
+    "description": "Prepare your nervous system for deep restorative sleep by systematically releasing muscular tension.",
+    "guide_steps": [
+      "Lie down in bed in your preferred sleeping posture.",
+      "Dim all lights and breathe at a steady, rhythmic cadence.",
+      "Tense your feet gently for 5 seconds, then consciously let them go completely limp.",
+      "Progress through thighs, abdomen, hands, shoulders, and facial muscles.",
+      "Sink into the mattress and welcome peaceful slumber."
+    ],
+    "target_time_of_day": "Bedtime"
+  },
+  {
+    "title": "3-Minute Micro-Break Mindful Reset",
+    "session_type": "SHORT_BREAK",
+    "duration": 3,
+    "description": "A quick recharge between study sessions or computer tasks to relieve cognitive fatigue.",
+    "guide_steps": [
+      "Look away from screens at a distant object or close your eyes.",
+      "Take 5 intentional slow breaths, dropping your shoulders on every exhale.",
+      "Roll your neck gently and open your eyes with refreshed focus."
+    ],
+    "target_time_of_day": "Work / Study Breaks"
+  }
+]

@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Brisk Morning Walk",
+    "category": "WALKING",
+    "difficulty": "BEGINNER",
+    "duration": 30,
+    "equipment": "NONE",
+    "tags": ["low-impact", "cardiovascular", "outdoor-or-treadmill", "joint-friendly"],
+    "instructions": "Maintain an upright posture, swing arms naturally, and walk briskly at a pace where you can talk but not sing.",
+    "calories_burned_est": 120.0
+  },
+  {
+    "name": "Interval Jogging & Walk",
+    "category": "RUNNING",
+    "difficulty": "INTERMEDIATE",
+    "duration": 25,
+    "equipment": "NONE",
+    "tags": ["cardio", "endurance", "aerobic", "stamina"],
+    "instructions": "Alternate between 2 minutes of moderate jogging and 1 minute of active recovery walking.",
+    "calories_burned_est": 190.0
+  },
+  {
+    "name": "Surya Namaskar (Sun Salutations)",
+    "category": "YOGA",
+    "difficulty": "BEGINNER",
+    "duration": 20,
+    "equipment": "YOGA_MAT",
+    "tags": ["flexibility", "breath-movement", "full-body", "mindfulness"],
+    "instructions": "Flow through 6-8 cycles of 12 classic asanas coordinating breath with each movement.",
+    "calories_burned_est": 95.0
+  },
+  {
+    "name": "Full Body Mobility & Joint Awakening",
+    "category": "MOBILITY",
+    "difficulty": "BEGINNER",
+    "duration": 15,
+    "equipment": "NONE",
+    "tags": ["posture", "joint-health", "desk-relief", "gentle"],
+    "instructions": "Gentle neck rolls, shoulder circles, cat-cow arches, hip openers, and ankle rotations.",
+    "calories_burned_est": 50.0
+  },
+  {
+    "name": "Bodyweight Squats & Core Activation",
+    "category": "STRENGTH",
+    "difficulty": "INTERMEDIATE",
+    "duration": 20,
+    "equipment": "NONE",
+    "tags": ["lower-body", "core", "strength", "stability"],
+    "instructions": "3 sets of 12 controlled air squats, followed by 30-second forearm planks and glute bridges.",
+    "calories_burned_est": 110.0
+  },
+  {
+    "name": "Evening Deep Stretch & De-Stress",
+    "category": "STRETCHING",
+    "difficulty": "BEGINNER",
+    "duration": 15,
+    "equipment": "YOGA_MAT",
+    "tags": ["flexibility", "recovery", "evening", "relaxation"],
+    "instructions": "Hold gentle hamstring stretches, pigeon pose, child's pose, and supine spinal twists for 45 seconds each.",
+    "calories_burned_est": 45.0
+  },
+  {
+    "name": "Upper Body Light Dumbbell / Water Bottle Circuit",
+    "category": "STRENGTH",
+    "difficulty": "BEGINNER",
+    "duration": 20,
+    "equipment": "DUMBBELLS",
+    "tags": ["arms", "shoulders", "toning", "beginner-friendly"],
+    "instructions": "Light bicep curls, overhead shoulder press, lateral raises, and bent-over rows with 1-2kg weights or water bottles.",
+    "calories_burned_est": 90.0
+  },
+  {
+    "name": "Desk Worker Ergonomic Reset",
+    "category": "MOBILITY",
+    "difficulty": "BEGINNER",
+    "duration": 10,
+    "equipment": "CHAIR",
+    "tags": ["quick-break", "anti-sitting", "spine", "neck-relief"],
+    "instructions": "Seated spinal twist, wrist stretches, chin tucks, and standing calf raises to counteract prolonged sitting.",
+    "calories_burned_est": 35.0
+  }
+]
