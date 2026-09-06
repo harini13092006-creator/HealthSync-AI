@@ -163,6 +163,16 @@ HealthSyncAI/
    ```
    Use `0.0.0.0` so phones and other devices on the same network can reach the backend. Allow Python through the Windows Firewall when prompted. Access OpenAPI documentation at `http://127.0.0.1:8000/api/docs/`.
 
+   On Windows, you can use the helper script to print the computer's LAN address and start the server:
+   ```powershell
+   .\start_backend.ps1
+   ```
+   If a phone cannot connect, run PowerShell as Administrator once and allow inbound traffic on port 8000:
+   ```powershell
+   New-NetFirewallRule -DisplayName "HealthSync AI Backend 8000" -Direction Inbound -Protocol TCP -LocalPort 8000 -Action Allow -Profile Private,Public
+   ```
+   Keep the phone and computer on the same Wi-Fi network. Use the LAN address printed by the script, not `0.0.0.0`, in the Flutter API URL.
+
 ---
 
 ### 3. Frontend Setup (Flutter)

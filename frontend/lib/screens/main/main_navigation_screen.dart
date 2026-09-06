@@ -18,16 +18,37 @@ class MainNavigationScreen extends StatefulWidget {
   State<MainNavigationScreen> createState() => _MainNavigationScreenState();
 }
 
-class _MainNavigationScreenState extends State<MainNavigationScreen> {
+class _MainNavigationScreenState extends State<MainNavigationScreen> with WidgetsBindingObserver {
   late int _currentIndex;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _currentIndex = widget.initialIndex;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<NotificationProvider>(context, listen: false).fetchNotifications();
+      final provider = Provider.of<NotificationProvider>(context, listen: false);
+      provider.fetchNotifications();
+      provider.startPolling();
     });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    final provider = Provider.of<NotificationProvider>(context, listen: false);
+    if (state == AppLifecycleState.resumed) {
+      provider.fetchNotifications();
+      provider.startPolling();
+    } else if (state == AppLifecycleState.inactive || state == AppLifecycleState.paused) {
+      provider.stopPolling();
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    Provider.of<NotificationProvider>(context, listen: false).stopPolling();
+    super.dispose();
   }
 
   void _onTabTapped(int index) {
