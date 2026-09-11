@@ -7,7 +7,7 @@ try:
     from ai_engine.user_profiler import UserProfiler
     from ai_engine.predict import CompletionPredictor
 except ImportError:
-    from user_profiler import UserProfiler
+    from ai_engine.user_profiler import UserProfiler
     from predict import CompletionPredictor
 
 
