@@ -12,10 +12,26 @@ from drf_spectacular.views import (
 from profiles.views import UserGoalViewSet
 from rest_framework.routers import DefaultRouter
 
+
+
 goals_router = DefaultRouter()
 goals_router.register(r'', UserGoalViewSet, basename='goals')
 
+from django.contrib import admin
+from django.urls import path, include
+from django.http import JsonResponse
+
+
+def home(request):
+    return JsonResponse({
+        "status": "success",
+        "message": "HealthSync AI Backend is running",
+        "service": "HealthSync AI",
+        "version": "1.0"
+    })
+
 urlpatterns = [
+    path('', home, name='home'),
     path('admin/', admin.site.urls),
 
     # OpenAPI / Swagger Documentation

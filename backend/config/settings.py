@@ -21,9 +21,9 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-healthsync-ai-secret-key-c
 DEBUG = os.getenv('DEBUG', 'True').lower() in ('true', '1', 'yes')
 
 ALLOWED_HOSTS = [
+    "healthsync-ai-1.onrender.com",
     "localhost",
     "127.0.0.1",
-    "https://healthsync-ai-1.onrender.com/",
 ]
 
 # Application definition
@@ -174,3 +174,6 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+CSRF_TRUSTED_ORIGINS = [
+    "https://healthsync-ai-1.onrender.com",
+]
