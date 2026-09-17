@@ -26,7 +26,7 @@ if not SECRET_KEY:
         raise RuntimeError('SECRET_KEY must be set when DEBUG is disabled')
 
 ALLOWED_HOSTS = [
-    "healthsync-ai-1.onrender.com",
+    "healthsync-ai-2.onrender.com",
     "localhost",
     "127.0.0.1",
 ]

@@ -3,12 +3,8 @@ HealthSync AI - Adaptive Routine Generator, Schedule Conflict Detector & Intelli
 """
 
 from datetime import time, timedelta, datetime
-try:
-    from ai_engine.user_profiler import UserProfiler
-    from ai_engine.predict import CompletionPredictor
-except ImportError:
-    from ai_engine.user_profiler import UserProfiler
-    from predict import CompletionPredictor
+from ai_engine.user_profiler import UserProfiler
+from ai_engine.predict import CompletionPredictor
 
 
 class ScheduleConflictDetector:
