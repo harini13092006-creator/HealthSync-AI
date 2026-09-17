@@ -17,8 +17,13 @@ if str(ROOT_DIR) not in sys.path:
 # Load environment variables from .env file
 load_dotenv(BASE_DIR / '.env')
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-healthsync-ai-secret-key-change-in-production-2026')
-DEBUG = os.getenv('DEBUG', 'True').lower() in ('true', '1', 'yes')
+DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 'yes')
+SECRET_KEY = os.getenv('SECRET_KEY')
+if not SECRET_KEY:
+    if DEBUG:
+        SECRET_KEY = 'django-insecure-local-development-only'
+    else:
+        raise RuntimeError('SECRET_KEY must be set when DEBUG is disabled')
 
 ALLOWED_HOSTS = [
     "healthsync-ai-1.onrender.com",
@@ -87,7 +92,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database Configuration (MySQL with SQLite fallback if MySQL is unreachable)
 DB_NAME = os.getenv('DB_NAME', 'healthsync_db')
 DB_USER = os.getenv('DB_USER', 'root')
-DB_PASSWORD = os.getenv('DB_PASSWORD', '1003')
+DB_PASSWORD = os.getenv('DB_PASSWORD', '')
 DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
 DB_PORT = os.getenv('DB_PORT', '3306')
 
@@ -160,7 +165,11 @@ SPECTACULAR_SETTINGS = {
 }
 
 # CORS Configuration
-CORS_ALLOW_ALL_ORIGINS = True
+configured_cors_origins = os.getenv(
+    'CORS_ALLOWED_ORIGINS',
+    'https://healthsync-ai-92d86.web.app,http://localhost:3000,http://127.0.0.1:3000',
+)
+CORS_ALLOWED_ORIGINS = [origin.strip() for origin in configured_cors_origins.split(',') if origin.strip()]
 CORS_ALLOW_CREDENTIALS = True
 
 # Internationalization
@@ -174,6 +183,8 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CSRF_TRUSTED_ORIGINS = [
-    "https://healthsync-ai-1.onrender.com",
-]
+configured_csrf_origins = os.getenv(
+    'CSRF_TRUSTED_ORIGINS',
+    'https://healthsync-ai-92d86.web.app,http://localhost:3000,http://127.0.0.1:3000',
+)
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in configured_csrf_origins.split(',') if origin.strip()]

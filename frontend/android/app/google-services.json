@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "549793390584",
-    "project_id": "healthsync-ai-92d86",
-    "storage_bucket": "healthsync-ai-92d86.firebasestorage.app"
+    "project_number": "40562478940",
+    "project_id": "healthsyncai-847d9",
+    "storage_bucket": "healthsyncai-847d9.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:549793390584:android:9f2f86d63852cf0cd7400d",
+        "mobilesdk_app_id": "1:40562478940:android:b01912f3d19d86dd32bb99",
         "android_client_info": {
           "package_name": "com.example.frontend"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC1XSFItBpQ_4APjon0wyrUJseHe_gkfIk"
+          "current_key": "AIzaSyAm9PbLwEA-PN_OLcfaRLs7TO2BdziTzqs"
         }
       ],
       "services": {

@@ -41,48 +41,44 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBZgi0WzCSeZDzJtMqZawTO8i45oLvV_HQ',
-    appId: '1:549793390584:web:028096c023ab094fd7400d',
-    messagingSenderId: '549793390584',
-    projectId: 'healthsync-ai-92d86',
-    authDomain: 'healthsync-ai-92d86.firebaseapp.com',
-    storageBucket: 'healthsync-ai-92d86.firebasestorage.app',
-    measurementId: 'G-63JTK18XXN',
+    apiKey: 'AIzaSyAJj5SkZw2X3CHwkU1n0LKx_qTeg7LuUTQ',
+    appId: '1:40562478940:web:e6b6b2419e47a4e832bb99',
+    messagingSenderId: '40562478940',
+    projectId: 'healthsyncai-847d9',
+    authDomain: 'healthsyncai-847d9.firebaseapp.com',
+    storageBucket: 'healthsyncai-847d9.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC1XSFItBpQ_4APjon0wyrUJseHe_gkfIk',
-    appId: '1:549793390584:android:9f2f86d63852cf0cd7400d',
-    messagingSenderId: '549793390584',
-    projectId: 'healthsync-ai-92d86',
-    storageBucket: 'healthsync-ai-92d86.firebasestorage.app',
+    apiKey: 'AIzaSyAm9PbLwEA-PN_OLcfaRLs7TO2BdziTzqs',
+    appId: '1:40562478940:android:b01912f3d19d86dd32bb99',
+    messagingSenderId: '40562478940',
+    projectId: 'healthsyncai-847d9',
+    storageBucket: 'healthsyncai-847d9.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAiZz2JbUK6tY0PlJ-rpYuNQn3JkBxIkk0',
-    appId: '1:549793390584:ios:50731cd4a2fd8495d7400d',
-    messagingSenderId: '549793390584',
-    projectId: 'healthsync-ai-92d86',
-    storageBucket: 'healthsync-ai-92d86.firebasestorage.app',
+    apiKey: 'AIzaSyBaeknxQ026eYHWxAKvenBM0pICld_49Vo',
+    appId: '1:40562478940:ios:4b17d7e6adfb310232bb99',
+    messagingSenderId: '40562478940',
+    projectId: 'healthsyncai-847d9',
+    storageBucket: 'healthsyncai-847d9.firebasestorage.app',
     iosBundleId: 'com.example.frontend',
   );
-
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAiZz2JbUK6tY0PlJ-rpYuNQn3JkBxIkk0',
-    appId: '1:549793390584:ios:50731cd4a2fd8495d7400d',
-    messagingSenderId: '549793390584',
-    projectId: 'healthsync-ai-92d86',
-    storageBucket: 'healthsync-ai-92d86.firebasestorage.app',
+    apiKey: 'AIzaSyBaeknxQ026eYHWxAKvenBM0pICld_49Vo',
+    appId: '1:40562478940:ios:4b17d7e6adfb310232bb99',
+    messagingSenderId: '40562478940',
+    projectId: 'healthsyncai-847d9',
+    storageBucket: 'healthsyncai-847d9.firebasestorage.app',
     iosBundleId: 'com.example.frontend',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyBZgi0WzCSeZDzJtMqZawTO8i45oLvV_HQ',
-    appId: '1:549793390584:web:174c508f433094dbd7400d',
-    messagingSenderId: '549793390584',
-    projectId: 'healthsync-ai-92d86',
-    authDomain: 'healthsync-ai-92d86.firebaseapp.com',
-    storageBucket: 'healthsync-ai-92d86.firebasestorage.app',
-    measurementId: 'G-QGF7HXE1HW',
+    apiKey: 'AIzaSyAJj5SkZw2X3CHwkU1n0LKx_qTeg7LuUTQ',
+    appId: '1:40562478940:web:28b0b3edd1dfc24e32bb99',
+    messagingSenderId: '40562478940',
+    projectId: 'healthsyncai-847d9',
+    authDomain: 'healthsyncai-847d9.firebaseapp.com',
+    storageBucket: 'healthsyncai-847d9.firebasestorage.app',
   );
 }

@@ -9,6 +9,10 @@ class ApiConstants {
       return configuredUrl;
     }
 
+    if (kIsWeb && kReleaseMode) {
+      return 'https://healthsync-ai-1.onrender.com';
+    }
+
     if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
       return 'http://10.0.2.2:8000';
     }

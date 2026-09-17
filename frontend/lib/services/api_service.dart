@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../core/constants/api_constants.dart';
 import 'storage_service.dart';
@@ -38,7 +40,7 @@ class ApiService {
       final response = await _client.get(Uri.parse(url), headers: headers).timeout(
         const Duration(seconds: 15),
       );
-      return _handleResponse(response);
+      return _handleResponse('GET', url, response);
     });
   }
 
@@ -50,7 +52,7 @@ class ApiService {
         headers: headers,
         body: body != null ? jsonEncode(body) : null,
       ).timeout(const Duration(seconds: 15));
-      return _handleResponse(response);
+      return _handleResponse('POST', url, response);
     });
   }
 
@@ -62,7 +64,7 @@ class ApiService {
         headers: headers,
         body: body != null ? jsonEncode(body) : null,
       ).timeout(const Duration(seconds: 15));
-      return _handleResponse(response);
+      return _handleResponse('PUT', url, response);
     });
   }
 
@@ -72,17 +74,18 @@ class ApiService {
       final response = await _client.delete(Uri.parse(url), headers: headers).timeout(
         const Duration(seconds: 15),
       );
-      return _handleResponse(response);
+      return _handleResponse('DELETE', url, response);
     });
   }
 
-  static dynamic _handleResponse(http.Response response) {
+  static dynamic _handleResponse(String method, String url, http.Response response) {
     dynamic body;
     try {
       body = jsonDecode(utf8.decode(response.bodyBytes));
     } catch (_) {
       body = response.body;
     }
+    _debugLog('$method $url -> ${response.statusCode}', body);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return body;
@@ -116,8 +119,8 @@ class ApiService {
       return await action();
     } on SocketException {
       throw ApiException('Unable to reach HealthSync server. Check your connection or API base URL in Settings.');
-    } on http.ClientException {
-      throw ApiException('Connection failed. Verify the backend server is running.');
+    } on TimeoutException {
+      throw ApiException('The HealthSync server took too long to respond. Please try again.');
     } on ApiException catch (e) {
       if (e.statusCode == 401) {
         // Attempt refresh
@@ -134,6 +137,26 @@ class ApiService {
     } catch (e) {
       throw ApiException(e.toString());
     }
+  }
+
+  static void _debugLog(String request, dynamic body) {
+    if (kReleaseMode) return;
+    debugPrint('[HealthSync API] $request');
+    if (body != null) {
+      debugPrint('[HealthSync API] response: ${_redact(body)}');
+    }
+  }
+
+  static dynamic _redact(dynamic value) {
+    const sensitiveKeys = {'password', 'token', 'access', 'refresh'};
+    if (value is Map) {
+      return value.map((key, item) => MapEntry(
+            key,
+            sensitiveKeys.contains(key.toString().toLowerCase()) ? '[REDACTED]' : _redact(item),
+          ));
+    }
+    if (value is List) return value.map(_redact).toList();
+    return value;
   }
 
   static Future<bool> _refreshToken() async {
