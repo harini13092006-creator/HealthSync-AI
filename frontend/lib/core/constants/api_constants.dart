@@ -10,7 +10,7 @@ class ApiConstants {
     }
 
     if (kIsWeb && kReleaseMode) {
-      return 'https://healthsync-ai-1.onrender.com';
+      return 'https://healthsync-ai-2.onrender.com';
     }
 
     if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {

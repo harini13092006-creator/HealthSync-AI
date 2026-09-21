@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart';
 import '../core/constants/api_constants.dart';
 
 class StorageService {
@@ -60,6 +61,14 @@ class StorageService {
 
   static Future<void> loadCustomBaseUrl() async {
     final prefs = await SharedPreferences.getInstance();
+
+    // Firebase production builds always use the deployed backend.
+    if (kIsWeb && kReleaseMode) {
+      await prefs.remove(_customBaseUrlKey);
+      ApiConstants.updateBaseUrl('https://healthsync-ai-2.onrender.com');
+      return;
+    }
+
     final url = prefs.getString(_customBaseUrlKey);
     if (url != null && url.isNotEmpty) {
       ApiConstants.updateBaseUrl(url);

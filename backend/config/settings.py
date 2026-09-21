@@ -25,10 +25,14 @@ if not SECRET_KEY:
     else:
         raise RuntimeError('SECRET_KEY must be set when DEBUG is disabled')
 
+configured_allowed_hosts = os.getenv(
+    'ALLOWED_HOSTS',
+    'healthsync-ai-2.onrender.com,localhost,127.0.0.1,10.0.2.2',
+)
 ALLOWED_HOSTS = [
-    "healthsync-ai-2.onrender.com",
-    "localhost",
-    "127.0.0.1",
+    host.strip().removeprefix('https://').removeprefix('http://').rstrip('/')
+    for host in configured_allowed_hosts.split(',')
+    if host.strip()
 ]
 
 # Application definition
@@ -167,9 +171,16 @@ SPECTACULAR_SETTINGS = {
 # CORS Configuration
 configured_cors_origins = os.getenv(
     'CORS_ALLOWED_ORIGINS',
-    'https://healthsync-ai-92d86.web.app,http://localhost:3000,http://127.0.0.1:3000',
+    'https://healthsync-ai-2.onrender.com,https://healthsyncai-847d9.web.app,http://localhost:3000,http://127.0.0.1:3000,http://localhost:61066,http://127.0.0.1:61066',
 )
-CORS_ALLOWED_ORIGINS = [origin.strip() for origin in configured_cors_origins.split(',') if origin.strip()]
+CORS_ALLOWED_ORIGINS = [
+    origin.strip().rstrip('/')
+    for origin in configured_cors_origins.split(',')
+    if origin.strip()
+]
+CORS_ALLOW_ALL_ORIGINS = (
+    DEBUG and os.getenv('CORS_ALLOW_ALL_ORIGINS', 'False').lower() in ('true', '1', 'yes')
+)
 CORS_ALLOW_CREDENTIALS = True
 
 # Internationalization
@@ -185,6 +196,10 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 configured_csrf_origins = os.getenv(
     'CSRF_TRUSTED_ORIGINS',
-    'https://healthsync-ai-92d86.web.app,http://localhost:3000,http://127.0.0.1:3000',
+    'https://healthsyncai-847d9.web.app,https://healthsync-ai-2.onrender.com,http://localhost:3000,http://127.0.0.1:3000,http://localhost:61066,http://127.0.0.1:61066',
 )
-CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in configured_csrf_origins.split(',') if origin.strip()]
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip().rstrip('/')
+    for origin in configured_csrf_origins.split(',')
+    if origin.strip()
+]
