@@ -7,6 +7,7 @@ from datetime import timedelta
 import os
 import sys
 from dotenv import load_dotenv
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -93,30 +94,48 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# Database Configuration (MySQL with SQLite fallback if MySQL is unreachable)
-DB_NAME = os.getenv('DB_NAME', 'healthsync_db')
-DB_USER = os.getenv('DB_USER', 'root')
-DB_PASSWORD = os.getenv('DB_PASSWORD', '')
-DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
-DB_PORT = os.getenv('DB_PORT', '3306')
+# Database Configuration
+# Render and other hosted environments typically provide DATABASE_URL.
+# Local development can fall back to SQLite unless a MySQL configuration is explicitly supplied.
+DATABASE_URL = os.getenv('DATABASE_URL')
+DB_ENGINE = os.getenv('DB_ENGINE', 'sqlite').lower()
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': DB_NAME,
-        'USER': DB_USER,
-        'PASSWORD': DB_PASSWORD,
-        'HOST': DB_HOST,
-        'PORT': DB_PORT,
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600),
     }
-}
+elif DB_ENGINE == 'mysql':
+    DB_NAME = os.getenv('DB_NAME', 'healthsync_db')
+    DB_USER = os.getenv('DB_USER', 'root')
+    DB_PASSWORD = os.getenv('DB_PASSWORD', '')
+    DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
+    DB_PORT = os.getenv('DB_PORT', '3306')
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': DB_NAME,
+            'USER': DB_USER,
+            'PASSWORD': DB_PASSWORD,
+            'HOST': DB_HOST,
+            'PORT': DB_PORT,
+            'OPTIONS': {
+                'charset': 'utf8mb4',
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Custom User Model
 AUTH_USER_MODEL = 'accounts.User'
+FIREBASE_PROJECT_ID = os.getenv('FIREBASE_PROJECT_ID', 'healthsyncai-847d9')
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -138,6 +157,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # REST Framework Configuration
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'accounts.authentication.FirebaseAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
@@ -178,9 +198,13 @@ CORS_ALLOWED_ORIGINS = [
     for origin in configured_cors_origins.split(',')
     if origin.strip()
 ]
-CORS_ALLOW_ALL_ORIGINS = (
-    DEBUG and os.getenv('CORS_ALLOW_ALL_ORIGINS', 'False').lower() in ('true', '1', 'yes')
-)
+FIREBASE_HOSTING_ORIGINS = [
+    'https://healthsyncai-847d9.web.app',
+    'https://healthsyncai-847d9.firebaseapp.com',
+]
+CORS_ALLOWED_ORIGINS = list(dict.fromkeys(CORS_ALLOWED_ORIGINS + FIREBASE_HOSTING_ORIGINS))
+CORS_ALLOWED_ORIGIN_REGEXES = [r'^http://(localhost|127\.0\.0\.1)(:\d+)?$']
+CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
 
 # Internationalization
@@ -203,3 +227,4 @@ CSRF_TRUSTED_ORIGINS = [
     for origin in configured_csrf_origins.split(',')
     if origin.strip()
 ]
+CSRF_TRUSTED_ORIGINS = list(dict.fromkeys(CSRF_TRUSTED_ORIGINS + FIREBASE_HOSTING_ORIGINS))

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../services/auth_service.dart';
 import '../services/storage_service.dart';
 
@@ -28,11 +29,16 @@ class AuthProvider with ChangeNotifier {
     _state = AuthState.loading;
     notifyListeners();
 
-    final hasToken = await AuthService.isAuthenticated();
-    if (hasToken) {
-      final user = await StorageService.getUser();
-      _userName = user['name'] ?? 'User';
-      _userEmail = user['email'] ?? '';
+    final firebaseUser = AuthService.currentUser;
+    if (firebaseUser != null) {
+      final savedUser = await StorageService.getUser();
+      _userName =
+          firebaseUser.displayName ??
+          savedUser['name'] ??
+          firebaseUser.email?.split('@').first ??
+          'User';
+      _userEmail = firebaseUser.email ?? savedUser['email'] ?? '';
+      await StorageService.saveUser(name: _userName, email: _userEmail);
       _isOnboarded = await StorageService.isOnboarded();
       _state = AuthState.authenticated;
     } else {
@@ -69,7 +75,11 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      final res = await AuthService.register(name: name, email: email, password: password);
+      final res = await AuthService.register(
+        name: name,
+        email: email,
+        password: password,
+      );
       final user = res['user'];
       _userName = user?['name'] ?? name;
       _userEmail = user?['email'] ?? email;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../core/constants/app_colors.dart';
 import '../../providers/auth_provider.dart';
 import 'register_screen.dart';
@@ -15,8 +16,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController(text: 'demo@healthsync.ai');
-  final _passwordController = TextEditingController(text: 'HealthSync@2026');
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool _obscurePassword = true;
 
   @override
@@ -49,7 +50,10 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(authProvider.errorMessage ?? 'Login failed. Check your credentials.'),
+          content: Text(
+            authProvider.errorMessage ??
+                'Login failed. Check your credentials.',
+          ),
           backgroundColor: AppColors.error,
         ),
       );
@@ -78,7 +82,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: AppColors.primary.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: const Icon(Icons.spa_rounded, size: 40, color: AppColors.primary),
+                      child: const Icon(
+                        Icons.spa_rounded,
+                        size: 40,
+                        color: AppColors.primary,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -95,7 +103,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Text(
                     'Log in to review your personalized daily wellness routine.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: AppColors.textSecondary, fontSize: 14),
+                    style: TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: 14,
+                    ),
                   ),
                   const SizedBox(height: 32),
 
@@ -107,8 +118,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       prefixIcon: Icon(Icons.email_outlined),
                     ),
                     validator: (v) {
-                      if (v == null || v.isEmpty) return 'Please enter your email';
-                      if (!v.contains('@')) return 'Please enter a valid email address';
+                      if (v == null || v.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      if (!v.contains('@')) {
+                        return 'Please enter a valid email address';
+                      }
                       return null;
                     },
                   ),
@@ -121,25 +136,40 @@ class _LoginScreenState extends State<LoginScreen> {
                       labelText: 'Password',
                       prefixIcon: const Icon(Icons.lock_outline_rounded),
                       suffixIcon: IconButton(
-                        icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
-                        onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: () => setState(
+                          () => _obscurePassword = !_obscurePassword,
+                        ),
                       ),
                     ),
                     validator: (v) {
-                      if (v == null || v.isEmpty) return 'Please enter your password';
-                      if (v.length < 6) return 'Password must be at least 6 characters';
+                      if (v == null || v.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      if (v.length < 6) {
+                        return 'Password must be at least 6 characters';
+                      }
                       return null;
                     },
                   ),
                   const SizedBox(height: 24),
 
                   ElevatedButton(
-                    onPressed: authProvider.state == AuthState.loading ? null : _handleLogin,
+                    onPressed: authProvider.state == AuthState.loading
+                        ? null
+                        : _handleLogin,
                     child: authProvider.state == AuthState.loading
                         ? const SizedBox(
                             width: 22,
                             height: 22,
-                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
                           )
                         : const Text('Log In'),
                   ),
@@ -155,7 +185,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(
-                            MaterialPageRoute(builder: (_) => const RegisterScreen()),
+                            MaterialPageRoute(
+                              builder: (_) => const RegisterScreen(),
+                            ),
                           );
                         },
                         child: const Text(

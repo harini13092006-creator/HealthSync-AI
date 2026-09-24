@@ -2,6 +2,12 @@
 .env
 *.env.local
 
+# Node dependencies and Firebase CLI cache
+node_modules/
+frontend/node_modules/
+frontend/.firebase/
+firebase-debug.log
+
 # Python
 __pycache__/
 *.py[cod]

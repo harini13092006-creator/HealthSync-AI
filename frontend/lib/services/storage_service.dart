@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
+
 import '../core/constants/api_constants.dart';
 
 class StorageService {
@@ -10,7 +11,10 @@ class StorageService {
   static const String _onboardedKey = 'healthsync_is_onboarded';
   static const String _customBaseUrlKey = 'healthsync_base_url';
 
-  static Future<void> saveTokens({required String access, required String refresh}) async {
+  static Future<void> saveTokens({
+    required String access,
+    required String refresh,
+  }) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_accessTokenKey, access);
     await prefs.setString(_refreshTokenKey, refresh);
@@ -26,7 +30,10 @@ class StorageService {
     return prefs.getString(_refreshTokenKey);
   }
 
-  static Future<void> saveUser({required String name, required String email}) async {
+  static Future<void> saveUser({
+    required String name,
+    required String email,
+  }) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_userNameKey, name);
     await prefs.setString(_userEmailKey, email);
@@ -59,11 +66,19 @@ class StorageService {
     await prefs.remove(_onboardedKey);
   }
 
+  static Future<void> clearLegacyTokens() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_accessTokenKey);
+    await prefs.remove(_refreshTokenKey);
+  }
+
   static Future<void> loadCustomBaseUrl() async {
     final prefs = await SharedPreferences.getInstance();
 
-    // Firebase production builds always use the deployed backend.
-    if (kIsWeb && kReleaseMode) {
+    // Production APKs and web builds always use the deployed backend. This
+    // prevents a saved localhost/LAN address from breaking the app off the
+    // development network.
+    if (kReleaseMode) {
       await prefs.remove(_customBaseUrlKey);
       ApiConstants.updateBaseUrl('https://healthsync-ai-2.onrender.com');
       return;
@@ -71,6 +86,20 @@ class StorageService {
 
     final url = prefs.getString(_customBaseUrlKey);
     if (url != null && url.isNotEmpty) {
+      final host = Uri.tryParse(url)?.host.toLowerCase();
+      final isLoopback =
+          host == 'localhost' ||
+          host == '127.0.0.1' ||
+          host == '10.0.2.2' ||
+          host == '::1';
+
+      // These addresses only work on the development computer/emulator. A
+      // previously saved value would make login fail on a physical phone.
+      if (isLoopback) {
+        await prefs.remove(_customBaseUrlKey);
+        return;
+      }
+
       ApiConstants.updateBaseUrl(url);
     }
   }

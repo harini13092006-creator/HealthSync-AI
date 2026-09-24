@@ -1,22 +1,21 @@
-import 'package:flutter/foundation.dart';
-
 class ApiConstants {
   static String baseUrl = _defaultBaseUrl;
 
+  static String _normalizeBaseUrl(String value) {
+    final trimmed = value.trim();
+    if (trimmed.isEmpty) return trimmed;
+    return trimmed.endsWith('/') ? trimmed.substring(0, trimmed.length - 1) : trimmed;
+  }
+
   static String get _defaultBaseUrl {
-    const configuredUrl = String.fromEnvironment('API_BASE_URL');
+    const configuredUrl = String.fromEnvironment('API_BASE_URL', defaultValue: '');
     if (configuredUrl.isNotEmpty) {
-      return configuredUrl;
+      return _normalizeBaseUrl(configuredUrl);
     }
 
-    if (kIsWeb && kReleaseMode) {
-      return 'https://healthsync-ai-2.onrender.com';
-    }
-
-    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
-      return 'http://10.0.2.2:8000';
-    }
-    return 'http://127.0.0.1:8000';
+    // Use the hosted API by default in debug and release builds so a physical
+    // phone can log in without depending on a development machine or emulator.
+    return 'https://healthsync-ai-2.onrender.com';
   }
 
   // Auth endpoints
@@ -64,10 +63,7 @@ class ApiConstants {
   static String markAllRead = '$baseUrl/api/notifications/mark-all-read/';
 
   static void updateBaseUrl(String newUrl) {
-    if (newUrl.endsWith('/')) {
-      newUrl = newUrl.substring(0, newUrl.length - 1);
-    }
-    baseUrl = newUrl;
+    baseUrl = _normalizeBaseUrl(newUrl);
     register = '$baseUrl/api/auth/register/';
     login = '$baseUrl/api/auth/login/';
     tokenRefresh = '$baseUrl/api/auth/token/refresh/';

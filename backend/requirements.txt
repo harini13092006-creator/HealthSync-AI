@@ -1,9 +1,12 @@
 Django
 djangorestframework
 djangorestframework-simplejwt
+PyJWT[crypto]>=2.10.1
 django-cors-headers
 drf-spectacular
 python-dotenv
+dj-database-url
+psycopg2-binary
 mysqlclient
 gunicorn
 joblib

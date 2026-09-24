@@ -152,33 +152,60 @@ class WeeklyAnalyticsView(views.APIView):
 
     def get(self, request):
         today = timezone.localdate() if timezone.is_aware(timezone.now()) else timezone.now().date()
+        start_date = today - timedelta(days=6)
+        dates = [start_date + timedelta(days=i) for i in range(7)]
         days_data = []
 
-        for i in range(6, -1, -1):
-            d = today - timedelta(days=i)
-            # Fetch or compute score
-            sc = DailyWellnessScore.objects.filter(user=request.user, date=d).first()
-            if not sc and d == today:
-                sc = compute_daily_wellness_score(request.user, d)
+        # Fetch each model once for the entire week. The previous per-day
+        # lookups issued 21 database queries for a single response.
+        scores = {
+            score.date: score
+            for score in DailyWellnessScore.objects.filter(
+                user=request.user, date__range=(start_date, today)
+            )
+        }
+        if today not in scores:
+            scores[today] = compute_daily_wellness_score(request.user, today)
 
-            act = ActivityRecord.objects.filter(user=request.user, date=d).first()
-            slp = SleepRecord.objects.filter(user=request.user, date=d).first()
-            wat = WaterRecord.objects.filter(user=request.user, date=d).aggregate(total=Sum('quantity_ml'))['total'] or 0
+        activities = {
+            activity.date: activity
+            for activity in ActivityRecord.objects.filter(
+                user=request.user, date__range=(start_date, today)
+            )
+        }
+        sleep_records = {
+            sleep.date: sleep
+            for sleep in SleepRecord.objects.filter(
+                user=request.user, date__range=(start_date, today)
+            )
+        }
+        water_totals = {
+            row['date']: row['total']
+            for row in WaterRecord.objects.filter(
+                user=request.user, date__range=(start_date, today)
+            )
+            .values('date')
+            .annotate(total=Sum('quantity_ml'))
+        }
 
+        for d in dates:
+            sc = scores.get(d)
+            act = activities.get(d)
+            slp = sleep_records.get(d)
             days_data.append({
                 'date': str(d),
                 'day_name': d.strftime('%a'),
                 'wellness_score': sc.total_score if sc else 70.0,
                 'steps': act.steps if act else 0,
                 'sleep_hours': slp.duration if slp else 0.0,
-                'water_ml': wat,
+                'water_ml': water_totals.get(d, 0),
             })
 
         avg_score = round(sum(d['wellness_score'] for d in days_data) / len(days_data), 1)
         total_steps = sum(d['steps'] for d in days_data)
 
         return Response({
-            'start_date': str(today - timedelta(days=6)),
+            'start_date': str(start_date),
             'end_date': str(today),
             'average_wellness_score': avg_score,
             'total_weekly_steps': total_steps,

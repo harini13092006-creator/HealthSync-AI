@@ -38,7 +38,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     await Future.wait([
       taskProvider.fetchTodaysTasks(),
       healthProvider.fetchHealthOverview(),
-      analyticsProvider.fetchAllAnalytics(),
+      analyticsProvider.fetchWellnessScore(),
     ]);
   }
 
