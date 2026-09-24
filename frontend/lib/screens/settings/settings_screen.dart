@@ -153,7 +153,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Row(
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 6,
                       children: [
                         OutlinedButton(
                           onPressed: () {
@@ -164,9 +166,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                             textStyle: const TextStyle(fontSize: 11),
                           ),
-                          child: const Text('127.0.0.1:8000 (Desktop)'),
+                          child: const Text('127.0.0.1:8000 (USB / ADB)'),
                         ),
-                        const SizedBox(width: 8),
+                        OutlinedButton(
+                          onPressed: () {
+                            _urlController.text = 'http://10.24.207.60:8000';
+                            _saveBaseUrl();
+                          },
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                            textStyle: const TextStyle(fontSize: 11),
+                          ),
+                          child: const Text('10.24.207.60:8000 (Wi-Fi)'),
+                        ),
                         OutlinedButton(
                           onPressed: () {
                             _urlController.text = 'http://10.0.2.2:8000';
@@ -176,7 +188,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                             textStyle: const TextStyle(fontSize: 11),
                           ),
-                          child: const Text('10.0.2.2:8000 (Android)'),
+                          child: const Text('10.0.2.2:8000 (Emulator)'),
                         ),
                       ],
                     ),

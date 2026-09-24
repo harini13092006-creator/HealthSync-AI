@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/constants/app_colors.dart';
 import '../../providers/auth_provider.dart';
+import '../../widgets/server_config_dialog.dart';
 import '../onboarding/onboarding_intro_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -61,6 +62,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create Account'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.dns_outlined),
+            tooltip: 'Server Settings',
+            onPressed: () => ServerConfigDialog.show(context),
+          ),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -137,7 +145,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     prefixIcon: Icon(Icons.lock_reset_rounded),
                   ),
                   validator: (v) {
-                    if (v != _passwordController.text) return 'Passwords do not match';
+                    if (v?.trim() != _passwordController.text.trim()) return 'Passwords do not match';
                     return null;
                   },
                 ),

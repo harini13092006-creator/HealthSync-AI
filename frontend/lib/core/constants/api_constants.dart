@@ -13,9 +13,9 @@ class ApiConstants {
       return _normalizeBaseUrl(configuredUrl);
     }
 
-    // Use the hosted API by default in debug and release builds so a physical
-    // phone can log in without depending on a development machine or emulator.
-    return 'https://healthsync-ai-2.onrender.com';
+    // Default to local backend at 127.0.0.1:8000
+    // (Works via 'adb reverse tcp:8000 tcp:8000' on mobile devices connected over USB and on desktop)
+    return 'http://127.0.0.1:8000';
   }
 
   // Auth endpoints

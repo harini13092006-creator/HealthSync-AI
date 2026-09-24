@@ -1,5 +1,4 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/foundation.dart';
 
 import '../core/constants/api_constants.dart';
 
@@ -74,33 +73,9 @@ class StorageService {
 
   static Future<void> loadCustomBaseUrl() async {
     final prefs = await SharedPreferences.getInstance();
-
-    // Production APKs and web builds always use the deployed backend. This
-    // prevents a saved localhost/LAN address from breaking the app off the
-    // development network.
-    if (kReleaseMode) {
-      await prefs.remove(_customBaseUrlKey);
-      ApiConstants.updateBaseUrl('https://healthsync-ai-2.onrender.com');
-      return;
-    }
-
     final url = prefs.getString(_customBaseUrlKey);
-    if (url != null && url.isNotEmpty) {
-      final host = Uri.tryParse(url)?.host.toLowerCase();
-      final isLoopback =
-          host == 'localhost' ||
-          host == '127.0.0.1' ||
-          host == '10.0.2.2' ||
-          host == '::1';
-
-      // These addresses only work on the development computer/emulator. A
-      // previously saved value would make login fail on a physical phone.
-      if (isLoopback) {
-        await prefs.remove(_customBaseUrlKey);
-        return;
-      }
-
-      ApiConstants.updateBaseUrl(url);
+    if (url != null && url.trim().isNotEmpty) {
+      ApiConstants.updateBaseUrl(url.trim());
     }
   }
 

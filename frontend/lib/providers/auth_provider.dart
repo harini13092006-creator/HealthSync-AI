@@ -30,14 +30,17 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
 
     final firebaseUser = AuthService.currentUser;
-    if (firebaseUser != null) {
+    final token = await StorageService.getAccessToken();
+
+    if (firebaseUser != null || (token != null && token.isNotEmpty)) {
       final savedUser = await StorageService.getUser();
       _userName =
-          firebaseUser.displayName ??
+          firebaseUser?.displayName ??
           savedUser['name'] ??
-          firebaseUser.email?.split('@').first ??
+          firebaseUser?.email?.split('@').first ??
+          savedUser['email']?.split('@').first ??
           'User';
-      _userEmail = firebaseUser.email ?? savedUser['email'] ?? '';
+      _userEmail = firebaseUser?.email ?? savedUser['email'] ?? '';
       await StorageService.saveUser(name: _userName, email: _userEmail);
       _isOnboarded = await StorageService.isOnboarded();
       _state = AuthState.authenticated;

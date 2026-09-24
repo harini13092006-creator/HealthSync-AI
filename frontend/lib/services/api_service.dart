@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
+import 'storage_service.dart';
 
 class ApiException implements Exception {
   final String message;
@@ -31,9 +32,17 @@ class ApiService {
       'Accept': 'application/json',
     };
     if (requiresAuth) {
-      final token = await FirebaseAuth.instance.currentUser?.getIdToken();
-      if (token != null && token.isNotEmpty) {
-        headers['Authorization'] = 'Bearer $token';
+      try {
+        final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+        if (token != null && token.isNotEmpty) {
+          headers['Authorization'] = 'Bearer $token';
+          return headers;
+        }
+      } catch (_) {}
+
+      final jwtToken = await StorageService.getAccessToken();
+      if (jwtToken != null && jwtToken.isNotEmpty) {
+        headers['Authorization'] = 'Bearer $jwtToken';
       }
     }
     return headers;

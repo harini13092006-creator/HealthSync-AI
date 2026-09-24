@@ -28,13 +28,17 @@ if not SECRET_KEY:
 
 configured_allowed_hosts = os.getenv(
     'ALLOWED_HOSTS',
-    'healthsync-ai-2.onrender.com,localhost,127.0.0.1,10.0.2.2',
+    '*',
 )
-ALLOWED_HOSTS = [
-    host.strip().removeprefix('https://').removeprefix('http://').rstrip('/')
-    for host in configured_allowed_hosts.split(',')
-    if host.strip()
-]
+if configured_allowed_hosts.strip() == '*' or DEBUG:
+    ALLOWED_HOSTS = ['*']
+else:
+    ALLOWED_HOSTS = [
+        host.strip().removeprefix('https://').removeprefix('http://').rstrip('/')
+        for host in configured_allowed_hosts.split(',')
+        if host.strip()
+    ]
+
 
 # Application definition
 INSTALLED_APPS = [
@@ -130,6 +134,9 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
+            'OPTIONS': {
+                'timeout': 30,
+            },
         }
     }
 
@@ -204,7 +211,7 @@ FIREBASE_HOSTING_ORIGINS = [
 ]
 CORS_ALLOWED_ORIGINS = list(dict.fromkeys(CORS_ALLOWED_ORIGINS + FIREBASE_HOSTING_ORIGINS))
 CORS_ALLOWED_ORIGIN_REGEXES = [r'^http://(localhost|127\.0\.0\.1)(:\d+)?$']
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', str(DEBUG)).lower() in ('true', '1', 'yes')
 CORS_ALLOW_CREDENTIALS = True
 
 # Internationalization

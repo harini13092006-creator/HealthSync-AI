@@ -6,7 +6,7 @@ class AnalyticsProvider with ChangeNotifier {
   bool _isLoading = false;
   String? _error;
   Map<String, dynamic> _wellnessScoreData = {};
-  Map<String, dynamic> _dailyData = {};
+  final Map<String, dynamic> _dailyData = {};
   Map<String, dynamic> _weeklyData = {};
   Map<String, dynamic> _behaviorData = {};
 

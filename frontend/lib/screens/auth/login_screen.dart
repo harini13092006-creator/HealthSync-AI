@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../providers/auth_provider.dart';
+import '../../widgets/server_config_dialog.dart';
 import 'register_screen.dart';
 import '../onboarding/onboarding_intro_screen.dart';
 import '../main/main_navigation_screen.dart';
@@ -65,6 +66,17 @@ class _LoginScreenState extends State<LoginScreen> {
     final authProvider = Provider.of<AuthProvider>(context);
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.dns_outlined, color: AppColors.textSecondary),
+            tooltip: 'Server Settings',
+            onPressed: () => ServerConfigDialog.show(context),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
